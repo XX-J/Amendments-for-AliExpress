@@ -21,9 +21,9 @@ function Replace(link) {
   if (!!link.getAttribute('href')) {
     link.href = decodeURIComponent(link.href);
     link.href = link.href.replace('aliexpress.ru/', 'aliexpress.com/');
-  };
-};
-function SplitForReplace(links) { for (var i = 0; i < links.length; ++i) Replace(links[i]) };
+  }
+}
+function SplitForReplace(links) { for (var i = 0; i < links.length; ++i) Replace(links[i]) }
 
 document.addEventListener('DOMNodeInserted', function(event) {
   if (!event || !event.target || !(event.target instanceof HTMLElement)) return;
@@ -42,10 +42,10 @@ if (localStorage.translate) {  //  Проверяем доступность DOM
   if (window.location.hostname.includes('feedback')) {
 
     let Input = document.querySelector('#translate'), Stor = localStorage.translate;
-    if (Input.value != Stor) { Input.value = Stor; Input.parentNode.submit(); };
+    if (Input.value != Stor) { Input.value = Stor; Input.parentNode.submit(); }
 
-    document.querySelector('#cb-translate').onclick = () => { localStorage.translate = (Stor == ' N ') ? ' Y ' : ' N ' };
-  };
+    document.querySelector('#cb-translate').onclick = () => { localStorage.translate = (Stor == ' N ') ? ' Y ' : ' N ' }
+  }
 
 //    Устанавливаем отображение 50-и заказов в списке заказов
 
@@ -53,7 +53,7 @@ if (localStorage.translate) {  //  Проверяем доступность DOM
 
     if (!localStorage.pageSize) localStorage.pageSize = '50';
     let Input = document.querySelector('[name="pageSize"]'), Stor = localStorage.pageSize;
-    if (Input.value != Stor) { Input.value = Stor; Input.parentNode.submit(); };
+    if (Input.value != Stor) { Input.value = Stor; Input.parentNode.submit(); }
 
     document.querySelectorAll('#simple-pager-page-size, #full-pager-page-size').forEach( Sel => {
 
@@ -63,8 +63,8 @@ if (localStorage.translate) {  //  Проверяем доступность DOM
 
       Sel.querySelector('[value="' + Stor + '"]').selected = true;
 
-      Sel.onchange = () => { localStorage.pageSize = Sel.value };
+      Sel.onchange = () => { localStorage.pageSize = Sel.value }
     });
-  };
+  }
 
-};
+}
