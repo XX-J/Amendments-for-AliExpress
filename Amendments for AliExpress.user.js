@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name:ru         Исправления AliExpress
 // @name            Amendments for AliExpress
-// @version         2.2
+// @version         2.3
 // @description:ru  Замена русскоязычных ссылок на англоязычном сайте их англоязычными аналогами. Отключение автоперевода комментариев к товарам на английский язык. Добавление опций отображения 50 и 100 заказов в списке заказов. Изменяемые настройки сохраняются.
 // @description     Replacement of Russian links to the English site of their English-speaking counterparts. Disabling autotranslate comments to the goods in the English language. The addition display options of 50 and 100 orders in the orders list. Changed settings are saved.
 // @icon            https://ae01.alicdn.com/images/eng/wholesale/icon/aliexpress.ico
@@ -15,12 +15,13 @@
 // ==/UserScript==
 
 
-//    Меняем ссылки на англоязычные
+//  Меняем ссылки на международные:
 
 function Replace(link) {
   if (!!link.getAttribute('href')) {
-    link.href = decodeURIComponent(link.href);
-    link.href = link.href.replace('aliexpress.ru/', 'aliexpress.com/');
+    link.href = decodeURIComponent(link.href).replace('aliexpress.ru/', 'aliexpress.com/');
+//  При международных ссылках на товары на странице распродаж доп. параметры в этих ссылках, идущие после '?', вызывают 404 после открытия:
+    if (window.location.hostname.includes('sale')) link.href = link.href.replace(/\?.*/, '');
   }
 }
 function SplitForReplace(links) { for (var i = 0; i < links.length; ++i) Replace(links[i]) }
@@ -35,35 +36,34 @@ SplitForReplace(document.getElementsByTagName('a'));
 
 
 if (!localStorage.translate) localStorage.translate = ' N ';
-if (localStorage.translate) {  //  Проверяем доступность DOM Storage
+if (localStorage.translate) {  //  <- Проверяем доступность DOM Storage.
 
-//    Отключаем перевод отзывов на английский
+//  Отключаем перевод отзывов на английский:
 
   if (window.location.hostname.includes('feedback')) {
 
-    let Input = document.querySelector('#translate'), Stor = localStorage.translate;
-    if (Input.value != Stor) { Input.value = Stor; Input.parentNode.submit(); }
+    let InputElement = document.querySelector('#translate'), SavedValue = localStorage.translate;
+    if (InputElement.value != SavedValue) { InputElement.value = SavedValue; InputElement.parentNode.submit(); }
 
-    document.querySelector('#cb-translate').onclick = () => { localStorage.translate = (Stor == ' N ') ? ' Y ' : ' N ' }
+    document.querySelector('#cb-translate').onclick = () => { localStorage.translate = (SavedValue == ' N ') ? ' Y ' : ' N ' }
   }
 
-//    Устанавливаем отображение 50-и заказов в списке заказов
+//  Устанавливаем отображение 50-и заказов в списке заказов:
 
   if (window.location.hostname.includes('trade')) {
 
-    if (!localStorage.pageSize) localStorage.pageSize = '50';
-    let Input = document.querySelector('[name="pageSize"]'), Stor = localStorage.pageSize;
-    if (Input.value != Stor) { Input.value = Stor; Input.parentNode.submit(); }
+    if (!localStorage.pageSize) localStorage.pageSize = 50;
+    let InputElement = document.querySelector('[name="pageSize"]'), SavedValue = localStorage.pageSize;
 
-    document.querySelectorAll('#simple-pager-page-size, #full-pager-page-size').forEach( Sel => {
+    document.querySelectorAll('#simple-pager-page-size, #full-pager-page-size').forEach( SelectedElement => {
 
-      let CrOpt50 = document.createElement('option'), CrOpt100 = document.createElement('option');
-      CrOpt50.value = '50'; CrOpt50.text = '50/Page'; Sel.add(CrOpt50);
-      CrOpt100.value = '100'; CrOpt100.text = '100/Page'; Sel.add(CrOpt100);
+      if (InputElement.value != SavedValue) { InputElement.value = SavedValue; InputElement.parentNode.submit(); }
 
-      Sel.querySelector('[value="' + Stor + '"]').selected = true;
+      let Option50 = document.createElement('option'), Option100 = document.createElement('option');
+      Option50.value = 50; Option50.text = '50/Page'; SelectedElement.add(Option50);
+      Option100.value = 100; Option100.text = '100/Page'; SelectedElement.add(Option100);
 
-      Sel.onchange = () => { localStorage.pageSize = Sel.value }
+      SelectedElement.value = SavedValue; SelectedElement.onchange = () => { localStorage.pageSize = SelectedElement.value }
     });
   }
 
