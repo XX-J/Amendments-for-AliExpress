@@ -2,7 +2,7 @@
 // ==UserScript==
 // @name:ru         Исправления AliExpress
 // @name            Amendments for AliExpress
-// @version         2.4
+// @version         2.5
 // @description:ru  Замена русскоязычных ссылок на англоязычном сайте их англоязычными аналогами. Отключение автоперевода комментариев к товарам на английский язык. Добавление опций отображения 50 и 100 заказов в списке заказов. Изменяемые настройки сохраняются.
 // @description     Replacement of Russian links to the English site of their English-speaking counterparts. Disabling autotranslate comments to the goods in the English language. The addition display options of 50 and 100 orders in the orders list. Changed settings are saved.
 // @icon            https://ae01.alicdn.com/images/eng/wholesale/icon/aliexpress.ico
@@ -21,7 +21,7 @@ function Replace(link) {
   if (!!link.getAttribute('href')) {
     link.hostname = link.hostname.replace('.ru', '.com');
 //  При международных ссылках на товары доп. параметр "pdp_ext_f={...}" в этих ссылках вызывает 404 после открытия:
-    link.href = decodeURIComponent(link.href).replace(/&pdp_ext_f=.+/, '');
+    link.href = decodeURIComponent(link.href).replace(/pdp_ext_f=.+\}/i, '').replace('&&', '&').replace('?&', '?').replace(/[\?&]$/, '');
   }
 }
 function SplitForReplace(links) { for (var i = 0; i < links.length; ++i) Replace(links[i]) }
