@@ -2,11 +2,10 @@
 // ==UserScript==
 // @name:ru         Исправления AliExpress
 // @name            Amendments for AliExpress
-// @version         2.5
-// @description:ru  Замена русскоязычных ссылок на англоязычном сайте их англоязычными аналогами. Отключение автоперевода комментариев к товарам на английский язык. Добавление опций отображения 50 и 100 заказов в списке заказов. Изменяемые настройки сохраняются.
-// @description     Replacement of Russian links to the English site of their English-speaking counterparts. Disabling autotranslate comments to the goods in the English language. The addition display options of 50 and 100 orders in the orders list. Changed settings are saved.
+// @version         2.6
+// @description  Замена русскоязычных ссылок на англоязычном сайте их англоязычными аналогами. Отключение автоперевода комментариев к товарам на английский язык. Добавление опций отображения 50 и 100 заказов в списке заказов. Изменяемые настройки сохраняются.
 // @icon            https://ae01.alicdn.com/images/eng/wholesale/icon/aliexpress.ico
-// @update          https://github.com/XX-J/Amendments-for-AliExpress/raw/main/Amendments for AliExpress.user.js
+// @update          https://raw.githubusercontent.com/XX-J/Amendments-for-AliExpress/master/Amendments%20for%20AliExpress.user.js
 // @author          XX-J...
 // @include         *://aliexpress.com/*
 // @include         *://*.aliexpress.com/*
